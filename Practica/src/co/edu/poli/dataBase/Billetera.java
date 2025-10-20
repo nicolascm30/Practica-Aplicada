@@ -5,7 +5,7 @@ public class Billetera {
 	private Usuario usuario;
 	private double saldoActual;
 	private String estado;
-//llave maestra hp joeeeel
+//llave 
 	public Billetera() {
 	}
 
