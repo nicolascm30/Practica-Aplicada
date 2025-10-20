@@ -1,62 +1,66 @@
 package co.edu.poli.dataBase;
 
+import java.util.List;
+
 public class Cancion {
-	private int idCancion;
-	private double valor;
-	private String autor;
-	private double duracion;
-	private String genero;
-	private Proveedor proveedor;
+    private int idCancion;
+    private String titulo;
+    private String artista;
+    private double duracion;
 
-	public Cancion() {
-	}
+    public Cancion() {
+    }
 
-	// Getters y Setters
-	public int getIdCancion() {
-		return idCancion;
-	}
+    public Cancion(int idCancion, String titulo, String artista, double duracion) {
+        this.idCancion = idCancion;
+        this.titulo = titulo;
+        this.artista = artista;
+        this.duracion = duracion;
+    }
 
-	public void setIdCancion(int idCancion) {
-		this.idCancion = idCancion;
-	}
+    public int getIdCancion() {
+        return idCancion;
+    }
 
-	public double getValor() {
-		return valor;
-	}
+    public void setIdCancion(int idCancion) {
+        this.idCancion = idCancion;
+    }
 
-	public void setValor(double valor) {
-		this.valor = valor;
-	}
+    public String getTitulo() {
+        return titulo;
+    }
 
-	public String getAutor() {
-		return autor;
-	}
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
+    public String getArtista() {
+        return artista;
+    }
 
-	public double getDuracion() {
-		return duracion;
-	}
+    public void setArtista(String artista) {
+        this.artista = artista;
+    }
 
-	public void setDuracion(double duracion) {
-		this.duracion = duracion;
-	}
+    public double getDuracion() {
+        return duracion;
+    }
 
-	public String getGenero() {
-		return genero;
-	}
+    public void setDuracion(double duracion) {
+        this.duracion = duracion;
+    }
 
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
+    @Override
+    public String toString() {
+        return "Cancion [idCancion=" + idCancion + ", titulo=" + titulo + ", artista=" + artista + ", duracion=" + duracion + "]";
+    }
 
-	public Proveedor getProveedor() {
-		return proveedor;
-	}
-
-	public void setProveedor(Proveedor proveedor) {
-		this.proveedor = proveedor;
-	}
+    public static final List<Cancion> Cancion = List.of(
+        new Cancion(1, "Blinding Lights", "The Weeknd", 3.2),
+        new Cancion(2, "As It Was", "Harry Styles", 2.8),
+        new Cancion(3, "Levitating", "Dua Lipa", 3.4),
+        new Cancion(4, "Bad Guy", "Billie Eilish", 3.1),
+        new Cancion(5, "Shape of You", "Ed Sheeran", 4.0)
+    );
 }
+

@@ -1,54 +1,51 @@
 package co.edu.poli.dataBase;
 
- public class Usuario extends Persona {
-	private String nombreDeUsuario;
-	private int amigos;
-	private int edad;
+import java.util.List;
 
-	public Usuario() {
-	}
+public class Usuario extends Persona {
+    private String contrasena;
+    private String rol;
 
-	public boolean registrar() {
-		return false;
-	}
+    public Usuario() {
+    }
 
-	public void recargarSaldo(double monto) {
-	}
+    public Usuario(int cedula, String nombre, String correo) {
+        super(cedula, nombre, correo);
+    }
 
-	public void resaltarRespuesta(Cancion cancion) {
-	}
+    public Usuario(int cedula, String nombre, String correo, String contrasena, String rol) {
+        super(cedula, nombre, correo);
+        this.contrasena = contrasena;
+        this.rol = rol;
+    }
 
-	public void realizarCompra(Mp3 mp3) {
-	}
+    public String getContrasena() {
+        return contrasena;
+    }
 
-	public void solicitarReporte() {
-	}
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
-	public void crearPlaylist(Cancion cancion) {
-	}
+    public String getRol() {
+        return rol;
+    }
 
-	// Getters y Setters
-	public String getNombreDeUsuario() {
-		return nombreDeUsuario;
-	}
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
 
-	public void setNombreDeUsuario(String nombreDeUsuario) {
-		this.nombreDeUsuario = nombreDeUsuario;
-	}
+    @Override
+    public String toString() {
+        return "Usuario [cedula=" + getCedula() + ", nombre=" + getNombre() + ", correo=" + getCorreo() + 
+               ", rol=" + rol + "]";
+    }
 
-	public int getAmigos() {
-		return amigos;
-	}
-
-	public void setAmigos(int amigos) {
-		this.amigos = amigos;
-	}
-
-	public int getEdad() {
-		return edad;
-	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
+    public static final List<Usuario> Usuario = List.of(
+        new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com", "12345", "Cliente"),
+        new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com", "abcde", "Cliente"),
+        new Usuario(1012, "Andrés Rojas", "andres.rojas@hotmail.com", "pass123", "Cliente"),
+        new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com", "98765", "Administrador"),
+        new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com", "qwerty", "Cliente")
+    );
 }
