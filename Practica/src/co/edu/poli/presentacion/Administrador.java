@@ -11,7 +11,7 @@ public class Administrador extends Persona {
 
     public Administrador() {}
 
-    // Métodos
+    // Métodos (placeholders)
     public void cancelarPedido(Cancion apuesta) {
         // TODO: implementar lógica para cancelar pedido
     }
@@ -45,8 +45,6 @@ public class Administrador extends Persona {
         return rango;
     }
     
-    //NICOLAS CARE VERGA
-
     public void setRango(int rango) {
         this.rango = rango;
     }
