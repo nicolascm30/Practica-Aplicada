@@ -6,7 +6,10 @@ import co.edu.poli.dataBase.Persona;
 
 public class PersonaDao {
 
-    private List<Persona> personas = new ArrayList<>(Persona.PERSONAS);
+	// NOTA: Esta lista solo se usa para simular un repositorio general de Personas.
+	// Las subclases (Usuario, Administrador, Proveedor) tienen sus propios DAOs y listas.
+	private List<Persona> personas = new ArrayList<>();
+
 
     public PersonaDao() {
     }
@@ -47,5 +50,10 @@ public class PersonaDao {
             }
         }
         return null;
+    }
+    
+    // Método adicional para obtener todas las Personas (útil para Managers)
+	public List<Persona> obtenerTodasLasPersonas() {
+        return new ArrayList<>(personas);
     }
 }

@@ -1,83 +1,79 @@
 package co.edu.poli.dataBase;
 
 import java.util.List;
+// Se importa Billetera para poder usar la lista estática Billetera.Billetera
 
 public class Transaccion {
-    private int idTransaccion;
-    private Billetera billeteraOrigen;
-    private Billetera billeteraDestino;
-    private double monto;
-    private String fecha;
+	private int idTransaccion;
+	private Billetera billeteraOrigen;
+	private Billetera billeteraDestino;
+	private double monto;
+	private String fecha;
 
-    public Transaccion() {
-    }
+	public Transaccion() {
+	}
 
-    public Transaccion(int idTransaccion, Billetera billeteraOrigen, Billetera billeteraDestino, double monto, String fecha) {
-        this.idTransaccion = idTransaccion;
-        this.billeteraOrigen = billeteraOrigen;
-        this.billeteraDestino = billeteraDestino;
-        this.monto = monto;
-        this.fecha = fecha;
-    }
+	public Transaccion(int idTransaccion, Billetera billeteraOrigen, Billetera billeteraDestino, double monto,
+			String fecha) {
+		this.idTransaccion = idTransaccion;
+		this.billeteraOrigen = billeteraOrigen;
+		this.billeteraDestino = billeteraDestino;
+		this.monto = monto;
+		this.fecha = fecha;
+	}
 
-    public int getIdTransaccion() {
-        return idTransaccion;
-    }
+	public int getIdTransaccion() {
+		return idTransaccion;
+	}
 
-    public void setIdTransaccion(int idTransaccion) {
-        this.idTransaccion = idTransaccion;
-    }
+	public void setIdTransaccion(int idTransaccion) {
+		this.idTransaccion = idTransaccion;
+	}
 
-    public Billetera getBilleteraOrigen() {
-        return billeteraOrigen;
-    }
+	public Billetera getBilleteraOrigen() {
+		return billeteraOrigen;
+	}
 
-    public void setBilleteraOrigen(Billetera billeteraOrigen) {
-        this.billeteraOrigen = billeteraOrigen;
-    }
+	public void setBilleteraOrigen(Billetera billeteraOrigen) {
+		this.billeteraOrigen = billeteraOrigen;
+	}
 
-    public Billetera getBilleteraDestino() {
-        return billeteraDestino;
-    }
+	public Billetera getBilleteraDestino() {
+		return billeteraDestino;
+	}
 
-    public void setBilleteraDestino(Billetera billeteraDestino) {
-        this.billeteraDestino = billeteraDestino;
-    }
+	public void setBilleteraDestino(Billetera billeteraDestino) {
+		this.billeteraDestino = billeteraDestino;
+	}
 
-    public double getMonto() {
-        return monto;
-    }
+	public double getMonto() {
+		return monto;
+	}
 
-    public void setMonto(double monto) {
-        this.monto = monto;
-    }
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
 
-    public String getFecha() {
-        return fecha;
-    }
+	public String getFecha() {
+		return fecha;
+	}
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 
-    @Override
-    public String toString() {
-        return "Transaccion [idTransaccion=" + idTransaccion + ", origen=" + billeteraOrigen.getIdBilletera() +
-               ", destino=" + billeteraDestino.getIdBilletera() + ", monto=" + monto + ", fecha=" + fecha + "]";
-    }
+	@Override
+	public String toString() {
+		return "Transaccion [idTransaccion=" + idTransaccion + ", origen=" + billeteraOrigen.getIdBilletera()
+				+ ", destino=" + billeteraDestino.getIdBilletera() + ", monto=" + monto + ", fecha=" + fecha + "]";
+	}
 
-    public static final List<Transaccion> Transaccion = List.of(
-        new Transaccion(1, new Billetera(1, new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com"), 250000, "Activa"),
-                           new Billetera(2, new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com"), 152000, "Activa"),
-                           30000.0, "2025-09-21"),
-        new Transaccion(2, new Billetera(2, new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com"), 152000, "Activa"),
-                           new Billetera(4, new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com"), 34000, "Activa"),
-                           15000.0, "2025-10-03"),
-        new Transaccion(3, new Billetera(5, new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com"), 98000, "Suspendida"),
-                           new Billetera(3, new Usuario(1012, "Andrés Rojas", "andres.rojas@hotmail.com"), 0, "Bloqueada"),
-                           20000.0, "2025-09-10"),
-        new Transaccion(4, new Billetera(4, new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com"), 34000, "Activa"),
-                           new Billetera(1, new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com"), 250000, "Activa"),
-                           50000.0, "2025-10-15")
-    );
+	// FIX (Error 3): Se añade la lista estática de simulación de datos para que TransaccionDao pueda inicializarse
+	public static final List<Transaccion> Transaccion = List.of(
+			// Usamos la lista estática de Billeteras para simular transacciones
+			new Transaccion(1, Billetera.Billetera.get(0), Billetera.Billetera.get(1), 10000.0, "2025-10-15"), // Carlos a Laura
+			new Transaccion(2, Billetera.Billetera.get(1), Billetera.Billetera.get(3), 5000.0, "2025-10-16"), // Laura a Valentina
+			new Transaccion(3, Billetera.Billetera.get(3), Billetera.Billetera.get(0), 20000.0, "2025-10-17")  // Valentina a Carlos
+	);
+	// FIN FIX
 }

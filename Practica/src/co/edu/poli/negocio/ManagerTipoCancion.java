@@ -1,35 +1,43 @@
 package co.edu.poli.negocio;
 
 
+
 /**
  * 
  */
-public class managerCrearUsuario {
+public class ManagerTipoCancion {
 
     /**
      * Default constructor
      */
-    public managerCrearUsuario() {
+    public ManagerTipoCancion() {
+    }
+
+    /**
+     * 
+     */
+    public void crearMP3Dao() {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    public void crearViniloDao() {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    public void crearPersonaDao() {
+        // TODO implement here
     }
 
     /**
      * 
      */
     public void crearUsuarioDao() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void crearAdministradorDao() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void crearBilleteraDao() {
         // TODO implement here
     }
 

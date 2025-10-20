@@ -7,6 +7,14 @@ public class Billetera {
 	private Usuario usuario;
 	private double saldoActual;
 	private String estado;
+	
+	// Lista estática de simulación de datos
+	public static final List<Billetera> Billetera = List.of(
+			new Billetera(1, Usuario.Usuario.get(0), 250000.0, "Activa"), // Carlos Pérez
+			new Billetera(2, Usuario.Usuario.get(1), 100000.0, "Activa"), // Laura Gómez
+			new Billetera(3, Usuario.Usuario.get(2), 0.0, "Activa"), // Andrés Rojas (para prueba de saldo insuficiente)
+			new Billetera(4, Usuario.Usuario.get(3), 50000.0, "Activa"), // Valentina Torres
+			new Billetera(5, Usuario.Usuario.get(4), 120000.0, "Bloqueada")); // Santiago Ruiz (para prueba de bloqueo)
 
 	public Billetera() {
 	}
@@ -52,14 +60,6 @@ public class Billetera {
 
 	@Override
 	public String toString() {
-		return "Billetera [idBilletera=" + idBilletera + ", usuario=" + usuario.getNombre() + ", saldoActual="
-				+ saldoActual + ", estado=" + estado + "]";
+		return "Billetera [idBilletera=" + idBilletera + ", usuario=" + usuario.getNombre() + ", saldoActual=" + saldoActual + ", estado=" + estado + "]";
 	}
-
-	public static final List<Billetera> Billetera = List.of(
-			new Billetera(1, new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com"), 250000.0, "Activa"),
-			new Billetera(2, new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com"), 152000.5, "Activa"),
-			new Billetera(3, new Usuario(1012, "Andrés Rojas", "andres.rojas@hotmail.com"), 0.0, "Bloqueada"),
-			new Billetera(4, new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com"), 34000.0, "Activa"),
-			new Billetera(5, new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com"), 98000.0, "Suspendida"));
 }

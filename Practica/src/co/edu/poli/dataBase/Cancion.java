@@ -1,29 +1,30 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
-
+/**
+ * Clase de entidad base que representa una Canción (título, artista, etc.).
+ */
 public class Cancion {
-	private int idCancion;
+	private int id;
 	private String titulo;
 	private String artista;
-	private double duracion;
+	private double duracionSegundos;
 
 	public Cancion() {
 	}
 
-	public Cancion(int idCancion, String titulo, String artista, double duracion) {
-		this.idCancion = idCancion;
+	public Cancion(int id, String titulo, String artista, double duracionSegundos) {
+		this.id = id;
 		this.titulo = titulo;
 		this.artista = artista;
-		this.duracion = duracion;
+		this.duracionSegundos = duracionSegundos;
 	}
 
-	public int getIdCancion() {
-		return idCancion;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdCancion(int idCancion) {
-		this.idCancion = idCancion;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitulo() {
@@ -42,21 +43,24 @@ public class Cancion {
 		this.artista = artista;
 	}
 
-	public double getDuracion() {
-		return duracion;
+	public double getDuracionSegundos() {
+		return duracionSegundos;
 	}
 
-	public void setDuracion(double duracion) {
-		this.duracion = duracion;
+	public void setDuracionSegundos(double duracionSegundos) {
+		this.duracionSegundos = duracionSegundos;
 	}
+
+	// FIX (Error 2): Se añade el método setDuracion(double) para corregir la llamada
+	// en Main.java y CancionDao.java
+	public void setDuracion(double duracion) {
+		this.duracionSegundos = duracion;
+	}
+	// FIN FIX
 
 	@Override
 	public String toString() {
-		return "Cancion [idCancion=" + idCancion + ", titulo=" + titulo + ", artista=" + artista + ", duracion="
-				+ duracion + "]";
+		return "Cancion [id=" + id + ", titulo=" + titulo + ", artista=" + artista + ", duracion=" + duracionSegundos
+				+ "s]";
 	}
-
-	public static final List<Cancion> Cancion = List.of(new Cancion(1, "Blinding Lights", "The Weeknd", 3.2),
-			new Cancion(2, "As It Was", "Harry Styles", 2.8), new Cancion(3, "Levitating", "Dua Lipa", 3.4),
-			new Cancion(4, "Bad Guy", "Billie Eilish", 3.1), new Cancion(5, "Shape of You", "Ed Sheeran", 4.0));
 }

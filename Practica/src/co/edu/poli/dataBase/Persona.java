@@ -1,16 +1,15 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
-
+/**
+ * Clase base para todas las personas (Usuarios, Administradores, Proveedores, etc.).
+ */
 public class Persona {
     private int cedula;
-    private String nombre;
+    private String nombre; // Usado para el nombre de contacto en Proveedor
     private String correo;
-
 
     public Persona() {
     }
-
 
     public Persona(int cedula, String nombre, String correo) {
         this.cedula = cedula;
@@ -18,12 +17,6 @@ public class Persona {
         this.correo = correo;
     }
 
-    public boolean iniciarSesion() {
-      
-        return false;
-    }
-
-  
     public int getCedula() {
         return cedula;
     }
@@ -47,25 +40,4 @@ public class Persona {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-
-    @Override
-    public String toString() {
-        return "Persona [cedula=" + cedula + ", nombre=" + nombre + ", correo=" + correo + "]";
-    }
-
-
-    public static final List<Persona> PERSONAS = List.of(
-        new Persona(1001234567, "Laura Gómez", "laura.gomez@gmail.com"),
-        new Persona(1002345678, "Andrés Martínez", "andres.martinez@hotmail.com"),
-        new Persona(1003456789, "Valentina López", "valentina.lopez@yahoo.com"),
-        new Persona(1004567890, "Juan Torres", "juan.torres@outlook.com"),
-        new Persona(1005678901, "Camila Rodríguez", "camila.rodriguez@gmail.com"),
-        new Persona(1006789012, "Sebastián Castro", "sebastian.castro@gmail.com"),
-        new Persona(1007890123, "Natalia Hernández", "natalia.hernandez@icloud.com"),
-        new Persona(1008901234, "Daniel Pérez", "daniel.perez@hotmail.com"),
-        new Persona(1009012345, "Mariana Jiménez", "mariana.jimenez@gmail.com"),
-        new Persona(1010123456, "Felipe Rojas", "felipe.rojas@yahoo.com")
-    );
 }
-
-

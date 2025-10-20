@@ -3,12 +3,12 @@ package co.edu.poli.negocio;
 /**
  * 
  */
-public class manegerComprarCancion {
+public class ManegerComprarCancion {
 
     /**
      * Default constructor
      */
-    public manegerComprarCancion() {
+    public ManegerComprarCancion() {
     }
 
     /**
