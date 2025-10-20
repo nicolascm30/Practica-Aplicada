@@ -44,6 +44,8 @@ public class Administrador extends Persona {
     public int getRango() {
         return rango;
     }
+    
+    //NICOLAS CARE VERGA
 
     public void setRango(int rango) {
         this.rango = rango;
