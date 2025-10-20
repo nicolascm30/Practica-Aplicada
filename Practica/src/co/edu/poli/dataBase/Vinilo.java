@@ -73,4 +73,9 @@ public class Vinilo {
         new Vinilo(4, "Divide", "Ed Sheeran", 210000.0, new Proveedor(5, "LatinBeats", "Juan Torres", "juan.torres@latinbeats.com")),
         new Vinilo(5, "After Hours", "The Weeknd", 230000.0, new Proveedor(3, "Warner Music", "Andrés Rojas", "andres.rojas@warner.com"))
     );
+
+	public void setEstado(String nuevoEstado) {
+		// TODO Auto-generated method stub
+		
+	}
 }

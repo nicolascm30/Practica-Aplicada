@@ -63,4 +63,9 @@ public class Recarga {
         new Recarga(4, new Billetera(4, new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com"), 34000.0, "Activa"), 75000.0, "2025-10-10"),
         new Recarga(5, new Billetera(5, new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com"), 98000.0, "Suspendida"), 20000.0, "2025-10-17")
     );
+
+	public void setValor(double nuevoValor) {
+		// TODO Auto-generated method stub
+		
+	}
 }

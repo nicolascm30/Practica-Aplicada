@@ -62,4 +62,9 @@ public class Mp3 {
         new Mp3(4, "mp3", 5.0, new Cancion(4, "Bad Guy", "Billie Eilish", 3.1)),
         new Mp3(5, "mp3", 6.5, new Cancion(5, "Shape of You", "Ed Sheeran", 4.0))
     );
+
+	public void setTitulo(String nuevoTitulo) {
+		// TODO Auto-generated method stub
+		
+	}
 }
