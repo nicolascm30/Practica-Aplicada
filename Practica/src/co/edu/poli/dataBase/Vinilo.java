@@ -1,64 +1,55 @@
 package co.edu.poli.dataBase;
 
+import java.util.List;
 
 public class Vinilo {
 	private int idVinilo;
-	private String titulo;
-	private String artista;
+	// ❌ ANTES: private String titulo; private String artista; private double
+	// duracionSegundos;
+	// ✅ FIX 1: Usamos composición para la canción
+	private Cancion cancion;
 	private double precio;
 	private Proveedor proveedor;
-	// FIX: Se agrega el campo 'estado' para que el ViniloDao pueda usar setEstado
 	private String estado;
-	private double duracionSegundos;
 
 	public Vinilo() {
 	}
 
-	public Vinilo(int idVinilo, String titulo, String artista, double precio, Proveedor proveedor, String estado,
-			double duracionSegundos) {
+	/**
+	 * ✅ FIX 2: Constructor CORREGIDO (5 argumentos: Vinilo(int, Cancion, double,
+	 * Proveedor, String)) Se eliminan los argumentos duplicados (titulo, artista,
+	 * duracionSegundos).
+	 */
+	public Vinilo(int idVinilo, Cancion cancion, double precio, Proveedor proveedor, String estado) {
 		this.idVinilo = idVinilo;
-		this.titulo = titulo;
-		this.artista = artista;
+		this.cancion = cancion;
 		this.precio = precio;
 		this.proveedor = proveedor;
 		this.estado = estado;
-		this.duracionSegundos = duracionSegundos; // Inicializar duración
 	}
 
-	public Vinilo(int idVinilo, String titulo, String artista, double precio, Proveedor proveedor) {
-		this(idVinilo, titulo, artista, precio, proveedor, "Disponible", 0.0); // Duración por defecto 0.0
+	// El constructor anterior de 7 argumentos ya no es necesario y se elimina.
+
+	// Métodos auxiliares para la clave foránea y el DAO
+	public int getIdCancion() {
+		return cancion.getId();
 	}
 
+	// Getters y Setters (actualizados para Cancion)
 	public int getIdVinilo() {
 		return idVinilo;
-	}
-
-	public double getDuracionSegundos() {
-		return duracionSegundos;
 	}
 
 	public void setIdVinilo(int idVinilo) {
 		this.idVinilo = idVinilo;
 	}
 
-	public String getTitulo() {
-		return titulo;
+	public Cancion getCancion() { // Nuevo getter para el objeto Cancion
+		return cancion;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getArtista() {
-		return artista;
-	}
-
-	public void setDuracionSegundos(double duracionSegundos) {
-		this.duracionSegundos = duracionSegundos;
-	}
-
-	public void setArtista(String artista) {
-		this.artista = artista;
+	public void setCancion(Cancion cancion) {
+		this.cancion = cancion;
 	}
 
 	public double getPrecio() {
@@ -81,16 +72,27 @@ public class Vinilo {
 		return estado;
 	}
 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	@Override
 	public String toString() {
-		return "Vinilo [idVinilo=" + idVinilo + ", titulo=" + titulo + ", artista=" + artista + ", precio=" + precio
-				+ ", estado=" + estado + ", proveedor=" + proveedor.getNombreEmpresa() + "]";
+		// Se accede a título y artista a través del objeto cancion
+		return "Vinilo [idVinilo=" + idVinilo + ", titulo=" + cancion.getTitulo() + ", artista=" + cancion.getArtista()
+				+ ", precio=" + precio + ", estado=" + estado + ", proveedor=" + proveedor.getNombreEmpresa() + "]";
 	}
 
-
-	
-	// FIX: Implementación del método setEstado
-	public void setEstado(String nuevoEstado) {
-		this.estado = nuevoEstado;
-	}
+	// ✅ FIX 3: Actualizar la lista estática (Línea 46 en el DAO)
+	// Se cambia la forma de inicializar a 5 argumentos (el segundo es un objeto
+	// Cancion)
+	public static final List<Vinilo> Vinilo = List.of(
+			// Vinilo(id, Cancion(id, titulo, artista, duracionSegundos), precio, Proveedor,
+			// estado)
+			new Vinilo(1, new Cancion(1, "Thriller", "Michael Jackson", 2530.0), // Objeto Cancion
+					250000.0, new Proveedor(1, "Sony Music", "Carlos Díaz", "contacto@sonymusic.com"), "Disponible"),
+			new Vinilo(2, new Cancion(2, "Abbey Road", "The Beatles", 2800.0), 220000.0,
+					new Proveedor(2, "Universal Records", "María López", "ventas@universal.com"), "Disponible"),
+			new Vinilo(3, new Cancion(3, "Future Nostalgia", "Dua Lipa", 2220.0), 200000.0,
+					new Proveedor(4, "IndieSound", "Camila Pérez", "camila@indiesound.co"), "Agotado"));
 }
