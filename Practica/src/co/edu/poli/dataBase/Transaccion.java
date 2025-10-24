@@ -1,7 +1,6 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
-// Se importa Billetera para poder usar la lista estática Billetera.Billetera
+
 
 public class Transaccion {
 	private int idTransaccion;
@@ -68,12 +67,5 @@ public class Transaccion {
 				+ ", destino=" + billeteraDestino.getIdBilletera() + ", monto=" + monto + ", fecha=" + fecha + "]";
 	}
 
-	// FIX (Error 3): Se añade la lista estática de simulación de datos para que TransaccionDao pueda inicializarse
-	public static final List<Transaccion> Transaccion = List.of(
-			// Usamos la lista estática de Billeteras para simular transacciones
-			new Transaccion(1, Billetera.Billetera.get(0), Billetera.Billetera.get(1), 10000.0, "2025-10-15"), // Carlos a Laura
-			new Transaccion(2, Billetera.Billetera.get(1), Billetera.Billetera.get(3), 5000.0, "2025-10-16"), // Laura a Valentina
-			new Transaccion(3, Billetera.Billetera.get(3), Billetera.Billetera.get(0), 20000.0, "2025-10-17")  // Valentina a Carlos
-	);
-	// FIN FIX
+	
 }

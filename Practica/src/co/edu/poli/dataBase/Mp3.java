@@ -1,6 +1,5 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
 
 public class Mp3 {
 
@@ -67,15 +66,7 @@ public class Mp3 {
 				+ ", cancion=" + cancion.getTitulo() + "]";
 	}
 
-	// 🔹 Lista de ejemplos con precios agregados
-	public static final List<Mp3> Mp3 = List.of(
-			// Cancion(id, titulo, artista, duracionSegundos)
-			new Mp3(1, "MP3", 5.0, 10000.0, new Cancion(1, "Blinding Lights", "The Weeknd", 201.0)), // 3:21
-			new Mp3(2, "MP3", 4.5, 9500.0, new Cancion(2, "As It Was", "Harry Styles", 167.0)), // 2:47
-			new Mp3(3, "MP3", 5.1, 11000.0, new Cancion(3, "Levitating", "Dua Lipa", 203.0)), // 3:23
-			new Mp3(4, "MP3", 4.8, 9000.0, new Cancion(4, "Bad Guy", "Billie Eilish", 194.0)), // 3:14
-			new Mp3(5, "MP3", 6.2, 12000.0, new Cancion(5, "Shape of You", "Ed Sheeran", 233.0)) // 3:53
-	);
+	
 
 	public void setTitulo(String nuevoTitulo) {
 		if (this.cancion != null) {

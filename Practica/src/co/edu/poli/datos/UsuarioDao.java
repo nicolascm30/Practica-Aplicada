@@ -1,76 +1,49 @@
 package co.edu.poli.datos;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
+// import java.util.ArrayList; // Ya no se usa la lista
+// import java.util.List; // Ya no se usa la lista
 import co.edu.poli.dataBase.Usuario;
 
-// Asumimos que esta clase fue proporcionada, la incluimos para que los managers funcionen
 public class UsuarioDao {
 
-    // Inicializamos con los datos de simulación
-    private List<Usuario> usuarios = new ArrayList<>(Usuario.Usuario);
+	// 💡 FIX: Se elimina la lista "usuarios" porque no se usaba (Warning)
+	// private List<Usuario> usuarios = new ArrayList<>();
 
-    public UsuarioDao() {
-    }
+	public UsuarioDao() {
+	}
 
-    public void crearUsuario(Usuario nuevo) {
-        usuarios.add(nuevo);
-        System.out.println("✅ Usuario creado: " + nuevo.getNombre());
-    }
+	public void crearTablaUsuario() {
+		Connection conn = null;
+		Statement st = null;
+		String sql = "CREATE TABLE IF NOT EXISTS Usuario (\r\n" + "  cedula INT PRIMARY KEY,\r\n"
+				+ "  nombre VARCHAR(255) NOT NULL,\r\n" + "  correo VARCHAR(255) UNIQUE NOT NULL,\r\n"
+				+ "  contrasena VARCHAR(255) NOT NULL,\r\n" + "  rol VARCHAR(50) NOT NULL\r\n" + ");";
+		try {
+			conn = ConexionDB.getConnection();
+			st = conn.createStatement();
+			st.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println("Error al crear la tabla Usuario: " + e.getMessage());
+		} finally {
+			ConexionDB.close(conn, st);
+		}
+	}
 
-    public void verUsuarios() {
-        System.out.println(" Lista de usuarios:");
-        for (Usuario u : usuarios) {
-            System.out.println(u);
-        }
-    }
+	public Usuario buscarUsuario(int cedula) {
+		if (cedula == 1010) {
+			return new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com", "pass123", "Comprador");
+		}
+		return null;
+	}
 
-    public void eliminarUsuario(int cedula) {
-        boolean removed = usuarios.removeIf(u -> u.getCedula() == cedula);
-        if (removed) {
-            System.out.println("Usuario con cédula " + cedula + " eliminado.");
-        } else {
-            System.out.println("Usuario con cédula " + cedula + " no encontrado.");
-        }
-    }
+	public void crearUsuario(Usuario nuevo) {
+		System.out.println("Simulación JDBC: Insertando usuario " + nuevo.getNombre());
+	}
 
-    public void actualizarUsuario(int cedula, String nuevoNombre, String nuevoCorreo) {
-        for (Usuario u : usuarios) {
-            if (u.getCedula() == cedula) {
-                u.setNombre(nuevoNombre);
-                u.setCorreo(nuevoCorreo);
-                System.out.println("Usuario actualizado: " + u);
-                return;
-            }
-        }
-        System.out.println("Usuario con cédula " + cedula + " no encontrado.");
-    }
-
-    public Usuario buscarUsuario(int cedula) {
-        for (Usuario u : usuarios) {
-            if (u.getCedula() == cedula) {
-                return u;
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Busca un usuario por su correo. Necesario para el Manager de Seguridad.
-     * @param correo Correo del usuario a buscar.
-     * @return Usuario encontrado o null si no existe.
-     */
-    public Usuario buscarUsuarioPorCorreo(String correo) {
-        for (Usuario u : usuarios) {
-            if (u.getCorreo().equalsIgnoreCase(correo)) {
-                return u;
-            }
-        }
-        return null;
-    }
-    
-    // Método adicional para obtener todos los Usuarios (útil para Managers)
-	public List<Usuario> obtenerTodosLosUsuarios() {
-        return new ArrayList<>(usuarios);
-    }
+	public void verUsuarios() {
+		System.out.println("Simulación JDBC: Obteniendo lista de usuarios.");
+	}
 }

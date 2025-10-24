@@ -1,7 +1,5 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
-
 public class Recarga {
 	private int idRecarga;
 	private Billetera billetera;
@@ -56,24 +54,7 @@ public class Recarga {
 				+ ", fecha=" + fecha + "]";
 	}
 
-	public static final List<Recarga> Recarga = List
-			.of(new Recarga(1,
-					new Billetera(1, new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com"), 250000.0, "Activa"),
-					50000.0, "2025-10-01"),
-					new Recarga(2,
-							new Billetera(2, new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com"), 152000.5,
-									"Activa"),
-							30000.0, "2025-09-29"),
-					new Recarga(3,
-							new Billetera(3, new Usuario(1012, "Andrés Rojas", "andres.rojas@hotmail.com"), 0.0,
-									"Bloqueada"),
-							10000.0, "2025-08-15"),
-					new Recarga(4,
-							new Billetera(4, new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com"),
-									34000.0, "Activa"),
-							75000.0, "2025-10-10"),
-					new Recarga(5, new Billetera(5, new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com"),
-							98000.0, "Suspendida"), 20000.0, "2025-10-17"));
+
 
 	// FIX: Implementación del método setValor
 	public void setValor(double nuevoValor) {

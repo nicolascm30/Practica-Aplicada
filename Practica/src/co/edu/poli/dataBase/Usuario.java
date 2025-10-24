@@ -1,6 +1,5 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
 
 public class Usuario extends Persona {
 	private String contrasena;
@@ -44,10 +43,5 @@ public class Usuario extends Persona {
 				+ rol + "]";
 	}
 
-	public static final List<Usuario> Usuario = List.of(
-			new Usuario(1010, "Carlos Pérez", "carlos.perez@gmail.com", "pass1", "Cliente"),
-			new Usuario(1011, "Laura Gómez", "laura.gomez@gmail.com", "pass2", "Cliente"),
-			new Usuario(1012, "Andrés Rojas", "andres.rojas@hotmail.com", "pass3", "Cliente"),
-			new Usuario(1013, "Valentina Torres", "valentina.torres@gmail.com", "pass4", "Cliente"),
-			new Usuario(1014, "Santiago Ruiz", "santiago.ruiz@yahoo.com", "pass5", "Cliente"));
+	
 }

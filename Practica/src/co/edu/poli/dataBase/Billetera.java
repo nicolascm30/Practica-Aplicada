@@ -1,6 +1,6 @@
 package co.edu.poli.dataBase;
 
-import java.util.List;
+
 
 public class Billetera {
 	private int idBilletera;
@@ -8,13 +8,7 @@ public class Billetera {
 	private double saldoActual;
 	private String estado;
 	
-	// Lista estática de simulación de datos
-	public static final List<Billetera> Billetera = List.of(
-			new Billetera(1, Usuario.Usuario.get(0), 250000.0, "Activa"), // Carlos Pérez
-			new Billetera(2, Usuario.Usuario.get(1), 100000.0, "Activa"), // Laura Gómez
-			new Billetera(3, Usuario.Usuario.get(2), 0.0, "Activa"), // Andrés Rojas (para prueba de saldo insuficiente)
-			new Billetera(4, Usuario.Usuario.get(3), 50000.0, "Activa"), // Valentina Torres
-			new Billetera(5, Usuario.Usuario.get(4), 120000.0, "Bloqueada")); // Santiago Ruiz (para prueba de bloqueo)
+
 
 	public Billetera() {
 	}

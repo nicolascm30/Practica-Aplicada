@@ -1,62 +1,45 @@
 package co.edu.poli.datos;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import co.edu.poli.dataBase.Recarga;
 
 public class RecargaDao {
 
-	// Inicializamos con los datos de simulación
-	private List<Recarga> recargas = new ArrayList<>(Recarga.Recarga);
+	// 💡 FIX (Error Recarga.Recarga): Se elimina la inicialización con la lista estática
+	private List<Recarga> recargas = new ArrayList<>();
 
 	public RecargaDao() {
 	}
+
+    // 💡 Método para crear la tabla Recarga
+    public void crearTablaRecarga() {
+        Connection conn = null;
+        Statement st = null;
+        String sql = "CREATE TABLE IF NOT EXISTS Recarga (\r\n"
+        		+ "  idRecarga SERIAL PRIMARY KEY,\r\n"
+        		+ "  idBilletera INT NOT NULL,\r\n"
+        		+ "  monto DOUBLE PRECISION NOT NULL,\r\n"
+        		+ "  fecha DATE NOT NULL DEFAULT CURRENT_DATE,\r\n"
+        		+ "  FOREIGN KEY (idBilletera) REFERENCES Billetera(idBilletera)\r\n"
+        		+ ");";
+        try {
+            conn = ConexionDB.getConnection();
+            st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("Error al crear la tabla Recarga: " + e.getMessage());
+        } finally {
+            ConexionDB.close(conn, st);
+        }
+    }
 
 	public void crearRecarga(Recarga nueva) {
 		recargas.add(nueva);
 		System.out.println("✅ Recarga agregada: " + nueva);
 	}
-
-	public void eliminarRecarga(int id) {
-		recargas.removeIf(r -> r.getIdRecarga() == id);
-		System.out.println("Recarga con ID " + id + " eliminada.");
-	}
-
-	public void verRecargas() {
-		System.out.println("Lista de recargas:");
-		for (Recarga r : recargas) {
-			System.out.println(r);
-		}
-	}
-
-	/**
-	 * Actualiza el monto de una recarga.
-	 * Se corrige el setter de 'setValor' a 'setMonto'.
-	 * @param id ID de la recarga.
-	 * @param nuevoMonto Nuevo monto de la recarga.
-	 */
-	public void actualizarRecarga(int id, double nuevoMonto) {
-		for (Recarga r : recargas) {
-			if (r.getIdRecarga() == id) {
-				r.setMonto(nuevoMonto); // FIX: Usar setMonto() en lugar de setValor()
-				System.out.println("Recarga actualizada: " + r);
-				return;
-			}
-		}
-		System.out.println("Recarga con ID " + id + " no encontrada.");
-	}
-
-	public Recarga buscarRecarga(int id) {
-		for (Recarga r : recargas) {
-			if (r.getIdRecarga() == id) {
-				return r;
-			}
-		}
-		return null;
-	}
-	
-	// Método adicional para obtener todas las recargas (útil para Managers)
-	public List<Recarga> obtenerTodasLasRecargas() {
-        return new ArrayList<>(recargas);
-    }
+    // ...
 }

@@ -1,58 +1,46 @@
 package co.edu.poli.datos;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import co.edu.poli.dataBase.Billetera;
 
-// Asumimos que esta clase fue proporcionada, la incluimos para que los managers funcionen
 public class BilleteraDao {
 
-	// Inicializamos con los datos de simulación
-	private List<Billetera> billeteras = new ArrayList<>(Billetera.Billetera);
+	// 💡 FIX: Se elimina la inicialización con la lista estática
+	private List<Billetera> billeteras = new ArrayList<>();
 
 	public BilleteraDao() {
 	}
+
+    // 💡 Método para crear la tabla Billetera
+    public void crearTablaBilletera() {
+        Connection conn = null;
+        Statement st = null;
+        String sql = "CREATE TABLE IF NOT EXISTS Billetera (\r\n"
+        		+ "  idBilletera SERIAL PRIMARY KEY,\r\n"
+        		+ "  cedulaUsuario INT NOT NULL,\r\n"
+        		+ "  saldoActual DOUBLE PRECISION NOT NULL,\r\n"
+        		+ "  estado VARCHAR(50) NOT NULL,\r\n"
+        		+ "  FOREIGN KEY (cedulaUsuario) REFERENCES Usuario(cedula)\r\n"
+        		+ ");";
+        try {
+            conn = ConexionDB.getConnection();
+            st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("Error al crear la tabla Billetera: " + e.getMessage());
+        } finally {
+            ConexionDB.close(conn, st); // FIX: Ahora usa el método close de ConexionDB
+        }
+    }
 
 	public void crearBilletera(Billetera nueva) {
 		billeteras.add(nueva);
 		System.out.println("✅ Billetera creada: " + nueva.getIdBilletera());
 	}
-
-	public void eliminarBilletera(int idBilletera) {
-		billeteras.removeIf(b -> b.getIdBilletera() == idBilletera);
-		System.out.println("Billetera con ID " + idBilletera + " eliminada.");
-	}
-
-	public void verBilleteras() {
-		System.out.println("Lista de billeteras:");
-		for (Billetera b : billeteras) {
-			System.out.println(b);
-		}
-	}
-
-	public void actualizarBilletera(int idBilletera, double nuevoSaldo, String nuevoEstado) {
-		for (Billetera b : billeteras) {
-			if (b.getIdBilletera() == idBilletera) {
-				b.setSaldoActual(nuevoSaldo);
-				b.setEstado(nuevoEstado);
-				System.out.println("Billetera actualizada: " + b);
-				return;
-			}
-		}
-		System.out.println("Billetera con ID " + idBilletera + " no encontrada.");
-	}
-
-	public Billetera buscarBilletera(int idBilletera) {
-		for (Billetera b : billeteras) {
-			if (b.getIdBilletera() == idBilletera) {
-				return b;
-			}
-		}
-		return null;
-	}
-	
-	// Método adicional para obtener todas las Billeteras (útil para Managers)
-	public List<Billetera> obtenerTodasLasBilleteras() {
-        return new ArrayList<>(billeteras);
-    }
+    // ... (El resto de los métodos deben ser migrados a JDBC)
 }

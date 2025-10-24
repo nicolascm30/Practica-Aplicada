@@ -1,60 +1,54 @@
 package co.edu.poli.datos;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import co.edu.poli.dataBase.Proveedor;
 
 public class ProveedorDao {
 
-	// NOTA: Esta lista no se inicializa con datos de simulación ya que los Proveedores
-	// son parte de Vinilo. Se mantiene vacía para agregar nuevas.
+	// Esta lista se mantiene para la simulación de 'crearProveedor'
 	private List<Proveedor> proveedores = new ArrayList<>();
 
 	public ProveedorDao() {
 	}
+
+    public void crearTablaProveedor() {
+        Connection conn = null;
+        Statement st = null;
+        String sql = "CREATE TABLE IF NOT EXISTS Proveedor (\r\n"
+        		+ "  idProveedor SERIAL PRIMARY KEY,\r\n"
+        		+ "  nombreEmpresa VARCHAR(255) NOT NULL,\r\n"
+        		+ "  contacto VARCHAR(255) NOT NULL,\r\n"
+        		+ "  correo VARCHAR(255) UNIQUE NOT NULL\r\n"
+        		+ ");";
+        try {
+            conn = ConexionDB.getConnection();
+            st = conn.createStatement();
+            st.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("Error al crear la tabla Proveedor: " + e.getMessage());
+        } finally {
+            ConexionDB.close(conn, st);
+        }
+    }
 
 	public void crearProveedor(Proveedor nuevo) {
 		proveedores.add(nuevo);
 		System.out.println("Proveedor agregado: " + nuevo);
 	}
 
-	public void eliminarProveedor(int id) {
-		proveedores.removeIf(p -> p.getIdProveedor() == id);
-		System.out.println("Proveedor con ID " + id + " eliminado.");
-	}
-
+    // 💡 FIX: Método añadido para ManegerReportes
 	public void verProveedores() {
-		System.out.println("Lista de proveedores:");
+		System.out.println("Simulación JDBC: Mostrando proveedores...");
+        // Aquí iría la lógica SELECT * FROM Proveedor
+        if (proveedores.isEmpty()) {
+            System.out.println("(No hay proveedores en la lista de simulación)");
+        }
 		for (Proveedor p : proveedores) {
 			System.out.println(p);
 		}
 	}
-
-	public void actualizarProveedor(int id, String nuevoNombre, String nuevoCorreo) {
-		for (Proveedor p : proveedores) {
-			if (p.getIdProveedor() == id) {
-				// Asumiendo que Proveedor tiene setNombreEmpresa (o se usa setNombre de Persona)
-				// Usaré setNombre de Persona, ya que Proveedor extiende Persona
-				p.setNombre(nuevoNombre); 
-				p.setCorreo(nuevoCorreo);
-				System.out.println("proveedor actualizado: " + p);
-				return;
-			}
-		}
-		System.out.println("Proveedor con ID " + id + " no encontrado.");
-	}
-
-	public Proveedor buscarProveedor(int id) {
-		for (Proveedor p : proveedores) {
-			if (p.getIdProveedor() == id) {
-				return p;
-			}
-		}
-		return null;
-	}
-	
-	// Método adicional para obtener todos los Proveedores (útil para Managers)
-	public List<Proveedor> obtenerTodosLosProveedores() {
-        return new ArrayList<>(proveedores);
-    }
 }
