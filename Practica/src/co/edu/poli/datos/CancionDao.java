@@ -6,6 +6,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList; // 💡 Importación necesaria
+import java.util.List; // 💡 Importación necesaria
 
 /**
  * DAO para la entidad Cancion (Versión de Base de Datos JDBC).
@@ -23,8 +25,7 @@ public class CancionDao {
 		return String.format("%d:%02d", minutos, segundosRestantes);
 	}
 
-	// 1. ✅ FIX: Implementa el método llamado desde Main.java para inicializar la
-	// DB.
+	// 1. ✅ FIX: Implementa el método llamado desde Main.java para inicializar la DB.
 	public void crearTablasSiNoExisten() {
 		crearTablaCancion();
 		// Aquí podrías agregar llamadas a la creación de otras tablas relacionadas si
@@ -49,45 +50,76 @@ public class CancionDao {
 			ConexionDB.close(conn);
 		}
 	}
+    
+    // ---------------------------------------------------
+	// 📜 Método OBTENER TODOS (Read All - Lista)
+	// ---------------------------------------------------
 
-	// 2. ✅ FIX: Implementa el método llamado desde Main.java para listar (ver) las
-	// canciones.
-	public void verCanciones() {
+    /**
+	 * Obtiene todas las Canciones de la base de datos.
+	 * 💡 ESTE MÉTODO ES NECESARIO para que Main.java verifique si debe cargar las canciones de prueba.
+	 * @return Una lista de objetos Cancion.
+	 */
+	public List<Cancion> obtenerTodasLasCanciones() {
+		List<Cancion> canciones = new ArrayList<>();
 		Connection conn = null;
-		PreparedStatement ps = null;
+		Statement st = null;
 		ResultSet rs = null;
+
 		String sql = "SELECT id, titulo, artista, duracionSegundos FROM Cancion ORDER BY id";
 
 		try {
 			conn = ConexionDB.getConnection();
 			if (conn != null) {
-				ps = conn.prepareStatement(sql);
-				rs = ps.executeQuery();
-
-				System.out.println("Lista de canciones (DB):");
-				System.out.println("--------------------------------------------------------------------------");
-				System.out.printf("| %-4s | %-30s | %-20s | %-10s |\n", "ID", "TÍTULO", "ARTISTA", "DURACIÓN");
-				System.out.println("--------------------------------------------------------------------------");
+				st = conn.createStatement();
+				rs = st.executeQuery(sql);
 
 				while (rs.next()) {
 					int id = rs.getInt("id");
 					String titulo = rs.getString("titulo");
 					String artista = rs.getString("artista");
 					double duracionSegundos = rs.getDouble("duracionSegundos");
-
-					String duracionFormateada = formatDuration(duracionSegundos);
-
-					System.out.printf("| %-4d | %-30s | %-20s | %-10s |\n", id, titulo, artista, duracionFormateada);
+					
+					// Mapear el ResultSet a un objeto Cancion
+					canciones.add(new Cancion(id, titulo, artista, duracionSegundos));
 				}
-				System.out.println("--------------------------------------------------------------------------");
 			}
 		} catch (SQLException e) {
-			System.err.println("❌ Error al consultar Canciones: " + e.getMessage());
+			System.err.println("❌ Error al obtener la lista de Canciones: " + e.getMessage());
 		} finally {
 			ConexionDB.close(rs);
-			ConexionDB.close(ps);
+			ConexionDB.close(st); // Usamos Statement, no PreparedStatement
 			ConexionDB.close(conn);
 		}
+		return canciones;
+	}
+
+
+	// 2. ✅ FIX: Implementa el método llamado desde Main.java para listar (ver) las
+	// canciones.
+	public void verCanciones() {
+        // En lugar de duplicar la lógica, llamamos al método que obtiene la lista.
+		List<Cancion> canciones = obtenerTodasLasCanciones(); 
+        
+        System.out.println("Lista de canciones (DB):");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.printf("| %-4s | %-30s | %-20s | %-10s |\n", "ID", "TÍTULO", "ARTISTA", "DURACIÓN");
+        System.out.println("--------------------------------------------------------------------------");
+        
+        if (canciones.isEmpty()) {
+            System.out.printf("| %-70s |\n", "No hay canciones registradas.");
+        } else {
+            for (Cancion cancion : canciones) {
+                String duracionFormateada = formatDuration(cancion.getDuracionSegundos());
+
+                System.out.printf("| %-4d | %-30s | %-20s | %-10s |\n", 
+                                cancion.getId(), 
+                                cancion.getTitulo(), 
+                                cancion.getArtista(), 
+                                duracionFormateada);
+            }
+        }
+        System.out.println("--------------------------------------------------------------------------");
 	}
 
 	// 3. Implementación de buscarCancion para que Main.java no falle en la opción 3
@@ -123,8 +155,6 @@ public class CancionDao {
 		}
 		return cancion;
 	}
-
-	// Archivo: CancionDao.java (Métodos a añadir)
 
 	// ---------------------------------------------------
 	// ➕ Método CREAR (Create)

@@ -9,18 +9,50 @@ import java.util.Scanner;
 
 public class Main {
 
+    // --- NUEVO MÉTODO PARA CARGAR DATOS DE PRUEBA (SOLUCIÓN) ---
+    /**
+     * Inserta canciones de prueba si la tabla está vacía.
+     * @param cancionDao El DAO para acceder a la tabla Cancion.
+     */
+    private static void inicializarCancionesPrueba(CancionDao cancionDao) {
+        // Verifica si ya hay canciones para evitar duplicados
+        if (cancionDao.obtenerTodasLasCanciones().isEmpty()) {
+            System.out.println("📦 Insertando canciones de prueba...");
+
+            // Cancion(id, titulo, artista, duracionSegundos)
+            cancionDao.crearCancion(new Cancion(0, "Bohemian Rhapsody", "Queen", 354.0));
+            cancionDao.crearCancion(new Cancion(0, "Stairway to Heaven", "Led Zeppelin", 482.0));
+            cancionDao.crearCancion(new Cancion(0, "Smells Like Teen Spirit", "Nirvana", 301.0));
+            cancionDao.crearCancion(new Cancion(0, "Imagine", "John Lennon", 187.0));
+            
+            System.out.println("✅ 4 Canciones de prueba cargadas.");
+        } else {
+            System.out.println("✅ Ya existen canciones en la base de datos. Saltando carga de prueba.");
+        }
+    }
+    // --------------------------------------------------------------------------
+
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
+		// Inicialización de DAOs y Managers
 		UsuarioDao usuarioDao = new UsuarioDao();
 		CancionDao cancionDao = new CancionDao();
 		ManagerCrearUsuario managerCrearUsuario = new ManagerCrearUsuario();
 
+		// ---- INICIALIZACIÓN DE LA BASE DE DATOS ----
 		System.out.println("--------------------------------------------------------------------------");
 		System.out.println("⚙️ Inicializando Conexión y Estructura de la Base de Datos...");
-		// ✅ Se llama al método para asegurar que la tabla existe.
-		cancionDao.crearTablasSiNoExisten();
+		
+		// 1. Crear las tablas necesarias (asumiendo que llama a la creación de todas)
+		cancionDao.crearTablasSiNoExisten(); 
+		
+		// 2. 💡 LLAMADA AL MÉTODO DE INICIALIZACIÓN (EL FIX)
+		inicializarCancionesPrueba(cancionDao); 
+		
 		System.out.println("--------------------------------------------------------------------------");
+		// ------------------------------------------
 
 		int opcion;
 
@@ -31,101 +63,105 @@ public class Main {
 			System.out.println("2. Agregar canción");
 			System.out.println("3. Comprar canción");
 			System.out.println("4. Ver canciones disponibles");
-			System.out.println("5. Salir");
+			System.out.println("5. Iniciar Sesión");
+			System.out.println("0. Salir");
 
+			// Leer la opción
 			if (sc.hasNextInt()) {
 				opcion = sc.nextInt();
-				sc.nextLine();
+				sc.nextLine(); // Consumir el salto de línea
 			} else {
-				System.out.println("❌ Error: Por favor, ingrese un número válido del menú.");
-				sc.nextLine();
-				opcion = 0;
+				System.out.println("❌ Opción no válida. Por favor, ingrese un número.");
+				sc.nextLine(); // Consumir la entrada no válida
+				opcion = -1; // Reset para continuar el loop
+				continue;
 			}
+
 
 			switch (opcion) {
-			case 1:
-				System.out.println("--- REGISTRO DE USUARIO ---");
-				System.out.print("Ingrese cédula: ");
-				// Validación básica para evitar que el scanner lea la siguiente línea como entero
-				if (!sc.hasNextInt()) {
-					System.out.println("❌ Cédula no válida. Volviendo al menú.");
-					sc.nextLine();
-					break;
-				}
-				int cedulaReg = sc.nextInt();
-				sc.nextLine();
-				System.out.print("Ingrese nombre: ");
-				String nombreReg = sc.nextLine();
-				System.out.print("Ingrese correo: ");
-				String correoReg = sc.nextLine();
-				System.out.print("Ingrese contraseña: ");
-				String passReg = sc.nextLine();
-				String rolReg = "Comprador";
-
-				managerCrearUsuario.crearNuevoCliente(cedulaReg, nombreReg, correoReg, passReg, rolReg);
-				break;
-
-			case 2:
-				System.out.println("--- AGREGAR CANCIÓN ---");
-				// Mensaje de TODO más limpio.
-				System.out.println("⚠️ Implementación de la lógica de inserción de canción pendiente en MP3Dao/ViniloDao.");
-				break;
-
-			case 3:
-				System.out.println("--- COMPRAR CANCIÓN ---");
-
-				System.out.print("Ingrese cédula del comprador (ej: 1010): ");
-				if (!sc.hasNextInt()) {
-					System.out.println("❌ Cédula no válida. Volviendo al menú.");
-					sc.nextLine();
-					break;
-				}
-				int cedulaUser = sc.nextInt();
-				sc.nextLine();
-
-				System.out.print("Ingrese ID de la canción: ");
-				if (!sc.hasNextInt()) {
-					System.out.println("❌ ID de canción no válido. Volviendo al menú.");
-					sc.nextLine();
-					break;
-				}
-				int idCancion = sc.nextInt();
-				sc.nextLine();
-
-				Usuario comprador = usuarioDao.buscarUsuario(cedulaUser);
-				// ✅ FIX: Se recupera la lógica de buscar la canción en la DB
-				Cancion cancionComprada = cancionDao.buscarCancion(idCancion); 
-
-				if (comprador != null && cancionComprada != null) {
-					System.out.println("✅ El usuario " + comprador.getNombre() + " (Cédula: " + cedulaUser + ") está registrado.");
-					System.out.println("✅ Se ha 'comprado' la canción: " + cancionComprada.getTitulo() + " (Implementación de compra pendiente en Manager).");
-				} else {
-					// Mensaje de error más descriptivo
-					if (comprador == null) {
-					    System.out.println("❌ Error: Usuario con cédula " + cedulaUser + " no encontrado en la DB.");
+				case 1:
+					// Lógica simplificada de Registrar usuario
+					System.out.println("--- 👤 Registrar Usuario ---");
+					System.out.print("Ingrese Cédula: ");
+					if (!sc.hasNextInt()) {
+						System.out.println("❌ Cédula no válida.");
+						sc.nextLine();
+						break;
 					}
-					if (cancionComprada == null) {
-					    System.out.println("❌ Error: Canción con ID " + idCancion + " no encontrada en la DB.");
+					int cedula = sc.nextInt();
+					sc.nextLine(); 
+					
+					System.out.print("Ingrese Nombre: ");
+					String nombre = sc.nextLine();
+					
+					System.out.print("Ingrese Correo: ");
+					String correo = sc.nextLine();
+					
+					System.out.print("Ingrese Contraseña: ");
+					String contrasena = sc.nextLine();
+					
+					System.out.print("Ingrese Rol (Comprador/Vendedor): ");
+					String rol = sc.nextLine();
+					
+					managerCrearUsuario.crearNuevoCliente(cedula, nombre, correo, contrasena, rol);
+					break;
+				case 2:
+					System.out.println("--- 🎶 Agregar Canción ---");
+					System.out.println("Funcionalidad de Agregar canción pendiente de implementación.");
+					break;
+				case 3:
+					// Lógica de Comprar canción (basada en tu snippet)
+					System.out.println("--- 🛒 Comprar Canción ---");
+					System.out.print("Ingrese cédula del comprador: ");
+					if (!sc.hasNextInt()) {
+						System.out.println("❌ Cédula no válida. Volviendo al menú.");
+						sc.nextLine();
+						break;
 					}
-				}
-				break;
-
-			case 4:
-				// ✅ Llama a la función de ver canciones (ahora de la DB)
-				cancionDao.verCanciones();
-				break;
-
-			case 5:
-				System.out.println("¡Hasta pronto! 👋");
-				break;
-
-			default:
-				if (opcion != 0) {
-					System.out.println("Opción no válida.");
-				}
-				break;
+					int cedulaUser = sc.nextInt();
+					sc.nextLine();
+	
+					System.out.print("Ingrese ID de la canción: ");
+					if (!sc.hasNextInt()) {
+						System.out.println("❌ ID de canción no válido. Volviendo al menú.");
+						sc.nextLine();
+						break;
+					}
+					int idCancion = sc.nextInt();
+					sc.nextLine();
+	
+					Usuario comprador = usuarioDao.buscarUsuario(cedulaUser);
+					// Búsqueda de la canción para verificar que exista
+					Cancion cancionComprada = cancionDao.buscarCancion(idCancion); 
+	
+					if (comprador != null && cancionComprada != null) {
+						System.out.println("✅ El usuario " + comprador.getNombre() + " (Cédula: " + cedulaUser + ") está registrado.");
+						System.out.println("✅ Se ha 'comprado' la canción: " + cancionComprada.getTitulo() + " (Implementación de compra pendiente en Manager).");
+					} else {
+						if (comprador == null) {
+							System.out.println("❌ Error: Usuario con cédula " + cedulaUser + " no encontrado en la DB.");
+						}
+						if (cancionComprada == null) {
+							System.out.println("❌ Error: Canción con ID " + idCancion + " no encontrada en la DB.");
+						}
+					}
+					break;
+				case 4:
+					// Lógica de Ver canciones disponibles
+					System.out.println("--- 🎧 Canciones Disponibles ---");
+					cancionDao.verCanciones();
+					break;
+				case 5:
+					System.out.println("--- 🔒 Iniciar Sesión ---");
+					System.out.println("Funcionalidad de Iniciar Sesión pendiente de implementación.");
+					break;
+				case 0:
+					System.out.println("👋 Gracias por usar la Tienda de Música POO. ¡Hasta pronto!");
+					break;
+				default:
+					System.out.println("❌ Opción no reconocida. Intente de nuevo.");
 			}
-		} while (opcion != 5);
+		} while (opcion != 0);
 
 		sc.close();
 	}
