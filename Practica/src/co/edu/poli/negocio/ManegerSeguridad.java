@@ -5,9 +5,6 @@ import co.edu.poli.datos.UsuarioDao;
 import co.edu.poli.datos.AdministradorDao;
 import co.edu.poli.presentacion.Administrador;
 
-/**
- * Manager para la lógica de seguridad y autenticación.
- */
 public class ManegerSeguridad {
 
 	private final UsuarioDao usuarioDao;
