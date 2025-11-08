@@ -14,6 +14,8 @@ public class ManegerComprarCancion {
     /**
      * 
      */
+    
+    //crear funcionalidades del vendedor
     public void crearUsuarioDao() {
         // TODO implement here
     }
