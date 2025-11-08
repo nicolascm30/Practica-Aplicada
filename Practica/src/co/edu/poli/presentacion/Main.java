@@ -8,12 +8,7 @@ import co.edu.poli.negocio.ManagerCrearUsuario;
 import java.util.Scanner;
 
 public class Main {
-//revisar pepndientes
-    // --- NUEVO MÉTODO PARA CARGAR DATOS DE PRUEBA (SOLUCIÓN) ---
-    /**
-     * Inserta canciones de prueba si la tabla está vacía.
-     * @param cancionDao El DAO para acceder a la tabla Cancion.
-     */
+//iniciar clases faltantes
     private static void inicializarCancionesPrueba(CancionDao cancionDao) {
         // Verifica si ya hay canciones para evitar duplicados
         if (cancionDao.obtenerTodasLasCanciones().isEmpty()) {
