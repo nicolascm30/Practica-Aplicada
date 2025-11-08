@@ -8,7 +8,7 @@ import co.edu.poli.negocio.ManagerCrearUsuario;
 import java.util.Scanner;
 
 public class Main {
-//iniciar clases faltantes
+//fucniones agregar y comprar
     private static void inicializarCancionesPrueba(CancionDao cancionDao) {
         // Verifica si ya hay canciones para evitar duplicados
         if (cancionDao.obtenerTodasLasCanciones().isEmpty()) {
