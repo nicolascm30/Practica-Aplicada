@@ -1,8 +1,5 @@
 package co.edu.poli.dataBase;
 
-/**
- * Clase de entidad base que representa una Canción (título, artista, etc.).
- */
 public class Cancion {
 	private int id;
 	private String titulo;
@@ -51,7 +48,8 @@ public class Cancion {
 		this.duracionSegundos = duracionSegundos;
 	}
 
-	// FIX (Error 2): Se añade el método setDuracion(double) para corregir la llamada
+	// FIX (Error 2): Se añade el método setDuracion(double) para corregir la
+	// llamada
 	// en Main.java y CancionDao.java
 	public void setDuracion(double duracion) {
 		this.duracionSegundos = duracion;
