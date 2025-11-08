@@ -8,7 +8,7 @@ import co.edu.poli.negocio.ManagerCrearUsuario;
 import java.util.Scanner;
 
 public class Main {
-
+//revisar pepndientes
     // --- NUEVO MÉTODO PARA CARGAR DATOS DE PRUEBA (SOLUCIÓN) ---
     /**
      * Inserta canciones de prueba si la tabla está vacía.
@@ -100,7 +100,7 @@ public class Main {
 					System.out.print("Ingrese Contraseña: ");
 					String contrasena = sc.nextLine();
 					
-					System.out.print("Ingrese Rol (Comprador/Vendedor): ");
+					System.out.print("Ingrese Rol (1<Comprador/2<Vendedor): ");
 					String rol = sc.nextLine();
 					
 					managerCrearUsuario.crearNuevoCliente(cedula, nombre, correo, contrasena, rol);
