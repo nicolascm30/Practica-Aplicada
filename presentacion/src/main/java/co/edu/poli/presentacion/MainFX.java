@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * JavaFX Aaa
+ * JavaFX Aaaa
  */
 public class MainFX extends Application {
 
