@@ -58,7 +58,7 @@ public class ManagerCrearUsuario {
         );
         billeteraDao.crearBilletera(nuevaBilletera);
         
-        System.out.println("✅ Creación exitosa para " + nombre + " (Billetera ID: " + nuevaBilletera.getIdBilletera() + ")");
+        System.out.println("✅ Creación exitosa del Cliente: " + nombre + " (Billetera ID: " + nuevaBilletera.getIdBilletera() + ")");
         return nuevoUsuario;
     }
 }

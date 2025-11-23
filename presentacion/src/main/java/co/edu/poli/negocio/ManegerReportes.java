@@ -20,12 +20,12 @@ public class ManegerReportes {
 	}
 
 	public void reporteUsuarios() {
-		System.out.println("📊 Reporte de Usuarios:");
+		System.out.println("📊 Reporte de Clientes:");
 		usuarioDao.verUsuarios();
 	}
 
 	public void reporteAdministradores() {
-		System.out.println("📊 Reporte de Administradores:");
+		System.out.println("📊 Reporte de Vendedores:");
 		administradorDao.verAdministrador();
 	}
 

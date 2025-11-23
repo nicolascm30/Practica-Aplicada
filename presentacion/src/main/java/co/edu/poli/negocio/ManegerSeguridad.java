@@ -32,7 +32,7 @@ public class ManegerSeguridad {
 			// 2. Verificar si la contraseña coincide
 			// Se usa getPassword() que devuelve el campo 'contrasena' de Usuario.java
 			if (usuario.getPassword().equals(contrasena)) {
-				System.out.println("✅ Login exitoso: Usuario " + usuario.getNombre() + " (" + usuario.getRol() + ")");
+				System.out.println("✅ Login exitoso: Cliente " + usuario.getNombre() + " (" + usuario.getRol() + ")");
 				return usuario;
 			}
 		}
@@ -55,7 +55,7 @@ public class ManegerSeguridad {
 			// 2. Verificar la cédula (por simplicidad, como si fuera la segunda credencial)
 			if (admin.getCedula() == cedula) {
 				System.out.println(
-						"✅ Login exitoso: Administrador " + admin.getNombre() + " (Rango: " + admin.getRango() + ")");
+						"✅ Login exitoso: Vendedor " + admin.getNombre() + " (Rango: " + admin.getRango() + ")");
 				return admin;
 			}
 		}
