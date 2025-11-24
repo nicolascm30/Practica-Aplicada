@@ -13,32 +13,16 @@ public class ManagerCrearUsuario {
     private UsuarioDao usuarioDao;
     private BilleteraDao billeteraDao;
     
-    // Contador para generar IDs únicos de billetera
-    private static int nextBilleteraId = 6; 
+    // ❌ ELIMINAR ESTA LÍNEA (causa el conflicto de IDs)
+    // private static int nextBilleteraId = 6; 
 
     public ManagerCrearUsuario() {
         // Inicialización de los DAOs (simulando inyección de dependencias)
         this.usuarioDao = new UsuarioDao();
         this.billeteraDao = new BilleteraDao();
     }
+    // ... (rest of the class)
 
-    public UsuarioDao crearUsuarioDao() {
-        return this.usuarioDao;
-    }
-
-    public BilleteraDao crearBilleteraDao() {
-        return this.billeteraDao;
-    }
-
-    /**
-     * Crea un nuevo usuario y su billetera asociada.
-     * @param cedula Cédula del nuevo usuario.
-     * @param nombre Nombre del nuevo usuario.
-     * @param correo Correo del nuevo usuario.
-     * @param contrasena Contraseña.
-     * @param rol Rol (ej: "Cliente").
-     * @return El usuario creado, o null si la cédula ya existe.
-     */
     public Usuario crearNuevoCliente(int cedula, String nombre, String correo, String contrasena, String rol) {
         if (usuarioDao.buscarUsuario(cedula) != null) {
             System.out.println("❌ Error: Ya existe un usuario con la cédula " + cedula);
@@ -51,14 +35,16 @@ public class ManagerCrearUsuario {
 
         // 2. Crear Billetera asociada
         Billetera nuevaBilletera = new Billetera(
-            nextBilleteraId++, 
+            // ✅ CORRECCIÓN: Usamos 0 o -1 como ID temporal. 
+            // El DAO lo ignorará y la DB generará el ID correcto.
+            0, 
             nuevoUsuario, 
             0.0, 
             "Activa"
         );
         billeteraDao.crearBilletera(nuevaBilletera);
         
-        System.out.println("✅ Creación exitosa del Cliente: " + nombre + " (Billetera ID: " + nuevaBilletera.getIdBilletera() + ")");
+        System.out.println("✅ Creación exitosa: Usuario " + cedula + " y Billetera asociada.");
         return nuevoUsuario;
     }
 }

@@ -1,69 +1,120 @@
 package co.edu.poli.presentacion;
 
+// ✅ 1. IMPORTACIONES DE JAVAFX
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import java.io.IOException; // Necesario para manejar la carga de FXML
+import javafx.stage.Stage;
 
+// ✅ 2. IMPORTACIONES DE JAVA ESTÁNDAR
+import java.io.IOException;
+
+// ✅ 3. IMPORTACIONES DE TU PROYECTO (Bases de datos y Negocio)
+// Asegúrate de que estas clases existan en estos paquetes exactos
 import co.edu.poli.database.Usuario;
-import co.edu.poli.negocio.ManegerSeguridad; // Importa tu Manager de Seguridad
+import co.edu.poli.negocio.ManegerSeguridad; 
+
+// Si Administrador está en 'presentacion' (según tus uploads anteriores), no requiere import.
+// Pero si lo moviste a 'database', descomenta la siguiente línea:
+// import co.edu.poli.database.Administrador; 
 
 public class PrimaryController {
-    
-    // Inyección de campos FXML
-    @FXML private TextField cedulaField;
-    @FXML private TextField passwordField; // Lo mejor es usar PasswordField
-    @FXML private Label messageLabel;
 
-    // Inicialización del Manager de Seguridad
-    private final ManegerSeguridad seguridadManager = new ManegerSeguridad();
+    @FXML
+    private TextField cedulaField;
+    
+    @FXML 
+    private TextField passwordField; 
+
+    @FXML
+    private Label messageLabel; 
+    
+    // Instancia del Manager
+    private final ManegerSeguridad manegerSeguridad = new ManegerSeguridad();
 
     /**
-     * Maneja el clic en el botón 'INICIAR SESIÓN'.
+     * Maneja el evento de INICIAR SESIÓN.
      */
     @FXML
     private void onLoginAction() {
-        // Validación de entrada
-        String cedulaStr = cedulaField.getText();
-        String password = passwordField.getText();
+        messageLabel.setText(""); 
         
-        if (cedulaStr.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("❌ Cédula y contraseña son requeridos.");
+        String idText = cedulaField.getText();
+        String passwordText = passwordField.getText();
+        
+        if (idText.isEmpty() || passwordText.isEmpty()) {
+            messageLabel.setText("Por favor, ingrese Cédula y Contraseña.");
             return;
         }
 
         try {
-            int cedula = Integer.parseInt(cedulaStr);
-            
-            // Llama a la lógica de negocio (ManegerSeguridad)
-            Usuario usuarioLogeado = seguridadManager.loginUsuario(cedula, password);
+            int identificacion = Integer.parseInt(idText);
+            Object loggedUser = null;
 
-            if (usuarioLogeado != null) {
-                messageLabel.setText("✅ ¡Bienvenido, " + usuarioLogeado.getNombre() + "!");
-                // Aquí iría la lógica para cargar la vista principal del usuario/cliente
-                System.out.println("Navegando a la vista principal...");
-            } else {
-                // Intenta si es administrador
-                // Esto es una simplificación, en un app real se podría hacer una sola consulta
-                // o usar campos diferentes para Admin/Usuario
-                messageLabel.setText("❌ Credenciales incorrectas."); 
-            }
+            // 1. Intentar Login como Usuario
+            loggedUser = manegerSeguridad.loginUsuario(identificacion, passwordText);
             
+            // 2. Si no es usuario, intentar como Administrador
+            if (loggedUser == null) {
+                // NOTA: Asegúrate de que la clase Administrador y el método loginAdministrador existan
+                // Si Administrador está en el mismo paquete, esto funciona.
+                // Si está en otro, asegúrate de importarlo arriba.
+                Administrador admin = manegerSeguridad.loginAdministrador(1, identificacion); 
+                if (admin != null) {
+                    loggedUser = admin;
+                }
+            }
+
+            if (loggedUser != null) {
+                messageLabel.setText("✅ Login Exitoso. Redirigiendo...");
+                loadSecondaryScene(loggedUser);
+            } else {
+                messageLabel.setText("❌ Cédula o Contraseña incorrecta.");
+            }
+
         } catch (NumberFormatException e) {
-            messageLabel.setText("❌ La cédula debe ser un número.");
+            messageLabel.setText("La identificación debe ser un número.");
+        } catch (Exception e) {
+            messageLabel.setText("Error al cargar la aplicación: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
+    
     /**
-     * Maneja el clic en el botón 'REGISTRARSE' para cambiar de vista.
+     * Acción para ir al Registro.
      */
     @FXML
     private void onRegisterAction() {
         try {
-            // Llama al método setRoot modificado en MainFX (ver paso 5)
-            MainFX.setRoot("register"); // Carga el nuevo FXML: register.fxml
+            // Llama al método estático en MainFX
+            MainFX.setRoot("register"); 
         } catch (IOException e) {
-            System.err.println("❌ No se pudo cargar la vista de registro: " + e.getMessage());
+            messageLabel.setText("❌ Error al cargar la pantalla de registro.");
+            System.err.println("Error cargando register.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    /**
+     * Carga la escena secundaria.
+     */
+    private void loadSecondaryScene(Object loggedUser) throws IOException {
+        Stage stage = (Stage) cedulaField.getScene().getWindow();
+        
+        // Carga el FXML de secondary
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/poli/presentacion/secondary.fxml"));
+        Parent root = loader.load();
+
+        // Obtiene el controlador y pasa los datos
+        SecondaryController controller = loader.getController();
+        controller.initData(loggedUser);
+        
+        Scene scene = new Scene(root, 600, 500);
+        stage.setScene(scene);
+        stage.setTitle("Menú Principal");
+        stage.show();
     }
 }

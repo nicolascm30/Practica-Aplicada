@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.Statement; // Importación única
 import co.edu.poli.database.Billetera;
 import co.edu.poli.database.Usuario;
 
@@ -37,7 +36,8 @@ public class BilleteraDao {
         		+ "  cedulaUsuario INT NOT NULL,\r\n"
         		+ "  saldoActual DOUBLE PRECISION NOT NULL,\r\n"
         		+ "  estado VARCHAR(50) NOT NULL,\r\n"
-        		+ "  FOREIGN KEY (cedulaUsuario) REFERENCES Usuario(cedula)\r\n"
+                // ✅ FIX: Se añade ON DELETE CASCADE para mantener la integridad (si se elimina Usuario, se elimina Billetera)
+        		+ "  FOREIGN KEY (cedulaUsuario) REFERENCES Usuario(cedula) ON DELETE CASCADE\r\n"
         		+ ");";
         try {
             conn = ConexionDB.getConnection();
