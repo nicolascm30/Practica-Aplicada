@@ -22,6 +22,9 @@
         <HBox alignment="CENTER_LEFT" spacing="10" VBox.vgrow="ALWAYS">
             <VBox spacing="10" style="-fx-border-color: #ccc; -fx-padding: 15;">
                 <Label text="Funciones Comunes" style="-fx-font-weight: bold;"/>
+                
+                <Button text="🎵 Ver Catálogo" prefWidth="200" onAction="#onCatalogAction"/>
+                
                 <Button text="🛒 Comprar MP3/Vinilo" prefWidth="200"/>
                 <Button text="💰 Recargar Billetera" prefWidth="200"/>
                 <Button text="💸 Ver Transacciones" prefWidth="200"/>
