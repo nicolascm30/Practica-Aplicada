@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.poli.presentacion.RegisterController">
+
+    <children>
+        <Label text="CREAR CUENTA" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        
+        <TextField fx:id="regCedulaField" promptText="Cédula" prefWidth="250"/>
+        <TextField fx:id="regNombreField" promptText="Nombre Completo" prefWidth="250"/>
+        <TextField fx:id="regCorreoField" promptText="Correo Electrónico" prefWidth="250"/>
+        <TextField fx:id="regPasswordField" promptText="Contraseña" prefWidth="250"/>
+
+        <Button text="CREAR CUENTA" onAction="#onFinalRegisterAction"/>
+        
+        <Label text="Ya tengo una cuenta" style="-fx-text-fill: gray; -fx-font-size: 11px;"/>
+        <Button text="↩️ VOLVER A INICIO" onAction="#onGoBackToLogin"/>
+
+        <Label fx:id="regMessageLabel" text="" style="-fx-text-fill: green;"/>
+    </children>
+
+    <padding>
+        <Insets top="40" bottom="40" left="40" right="40"/>
+    </padding>
+</VBox>

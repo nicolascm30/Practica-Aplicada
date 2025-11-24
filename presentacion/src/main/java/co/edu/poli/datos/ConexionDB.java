@@ -9,93 +9,71 @@ import java.sql.Statement;
 
 public class ConexionDB {
 
-	// 🔗 URL Base del servidor PostgreSQL en Supabase
-	private static final String URL_BASE = "jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:6543/postgres";
+    // 🔗 URL correcta con puerto del pooler + SSL
+    private static final String URL_BASE =
+            "jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require";
 
-	// 🔐 Credenciales del proyecto
-	private static final String USER = "postgres.tsmvxvxpvysvlhiskvfd";
-	private static final String PASS = "Poli2025*000";
+    // 🔐 Credenciales nuevas
+    private static final String USER = "postgres.wuuszgucbboemzeraewf";
+    private static final String PASS = "Musica205**";
 
-	/**
-	 * Establece y retorna la conexión a la base de datos Supabase (PostgreSQL).
-	 */
-	public static Connection getConnection() {
-		Connection connection = null;
-		try {
-			// Cargar el driver de PostgreSQL
-			Class.forName("org.postgresql.Driver");
+    /**
+     * Establece y retorna la conexión a la base de datos Supabase (PostgreSQL).
+     */
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            Class.forName("org.postgresql.Driver");
 
-			// Conexión usando URL, usuario y contraseña
-			connection = DriverManager.getConnection(URL_BASE, USER, PASS);
+            connection = DriverManager.getConnection(URL_BASE, USER, PASS);
 
-			System.out.println("✅ Conexión exitosa a la base de datos Supabase.");
+            System.out.println("✅ Conexión exitosa a la base de datos Supabase.");
 
-		} catch (ClassNotFoundException e) {
-			System.err.println(
-					"❌ Error: No se encontró el driver de PostgreSQL. Asegúrate de tener el JAR en el classpath.");
-		} catch (SQLException e) {
-			System.err.println("❌ Error de conexión a la base de datos: " + e.getMessage());
-			System.err.println("👉 Verifica las credenciales, host o puerto en ConexionDB.java");
-		}
-		return connection; // Retorna null si la conexión falló
-	}
+        } catch (ClassNotFoundException e) {
+            System.err.println("❌ Driver PostgreSQL no encontrado.");
+        } catch (SQLException e) {
+            System.err.println("❌ Error de conexión: " + e.getMessage());
+        }
+        return connection;
+    }
 
-	// --- MÉTODOS DE CIERRE ---
+    // ---- MÉTODOS DE CIERRE ----
 
-	public static void close(Connection conn, PreparedStatement ps, ResultSet rs) {
-		close(rs);
-		close(ps);
-		close(conn);
-	}
+    public static void close(Connection conn, PreparedStatement ps, ResultSet rs) {
+        close(rs);
+        close(ps);
+        close(conn);
+    }
 
-	public static void close(Connection conn, PreparedStatement ps) {
-		close(ps);
-		close(conn);
-	}
+    public static void close(Connection conn, PreparedStatement ps) {
+        close(ps);
+        close(conn);
+    }
 
-	public static void close(Connection conn, Statement st) {
-		close(st);
-		close(conn);
-	}
+    public static void close(Connection conn, Statement st) {
+        close(st);
+        close(conn);
+    }
 
-	public static void close(ResultSet rs) {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				// Ignorar
-			}
-		}
-	}
+    public static void close(ResultSet rs) {
+        if (rs != null) try { rs.close(); } catch (SQLException ignored) {}
+    }
 
-	public static void close(Statement st) {
-		if (st != null) {
-			try {
-				st.close();
-			} catch (SQLException e) {
-				// Ignorar
-			}
-		}
-	}
+    public static void close(Statement st) {
+        if (st != null) try { st.close(); } catch (SQLException ignored) {}
+    }
 
-	public static void close(Connection conn) {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// Ignorar
-			}
-		}
-	}
+    public static void close(Connection conn) {
+        if (conn != null) try { conn.close(); } catch (SQLException ignored) {}
+    }
 
-	// --- Método de prueba ---
-	public static void main(String[] args) {
-		Connection conn = ConexionDB.getConnection();
-		if (conn != null) {
-			System.out.println("🎯 Prueba completada: conexión establecida correctamente.");
-			close(conn);
-		} else {
-			System.out.println("⚠️ No se pudo establecer la conexión.");
-		}
-	}
+    public static void main(String[] args) {
+        Connection conn = ConexionDB.getConnection();
+        if (conn != null) {
+            System.out.println("🎯 Prueba completada: conexión establecida.");
+            close(conn);
+        } else {
+            System.out.println("⚠️ No se pudo establecer la conexión.");
+        }
+    }
 }

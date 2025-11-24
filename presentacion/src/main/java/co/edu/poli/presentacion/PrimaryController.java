@@ -1,78 +1,69 @@
 package co.edu.poli.presentacion;
 
-import co.edu.poli.database.Usuario; // Importamos el modelo Usuario
-import co.edu.poli.negocio.ManegerSeguridad; // Importamos el Manager de Negocio
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField; // Importamos PasswordField
+import java.io.IOException; // Necesario para manejar la carga de FXML
+
+import co.edu.poli.database.Usuario;
+import co.edu.poli.negocio.ManegerSeguridad; // Importa tu Manager de Seguridad
 
 public class PrimaryController {
-
-    // 1. Declaración de Controles de la Interfaz (deben coincidir con el fx:id en FXML)
-    @FXML
-    private TextField cedulaField; // Enlaza el campo de Cédula
     
-    @FXML
-    private PasswordField passwordField; // Enlaza el campo de Contraseña
-    
-    @FXML
-    private Label resultLabel; // Enlaza la etiqueta de resultados
+    // Inyección de campos FXML
+    @FXML private TextField cedulaField;
+    @FXML private TextField passwordField; // Lo mejor es usar PasswordField
+    @FXML private Label messageLabel;
 
-    // 2. Instancia de la Capa de Negocio
-    private final ManegerSeguridad seguridadManager;
+    // Inicialización del Manager de Seguridad
+    private final ManegerSeguridad seguridadManager = new ManegerSeguridad();
 
     /**
-     * Constructor del controlador. Se ejecuta antes de inicializar la vista (FXML).
-     * Aquí inicializamos las dependencias del Manager.
-     */
-    public PrimaryController() {
-        this.seguridadManager = new ManegerSeguridad();
-    }
-    
-    /**
-     * Método invocado cuando el usuario hace clic en el botón "Iniciar Sesión".
-     * @FXML conecta este método con el atributo onAction del botón en primary.fxml
+     * Maneja el clic en el botón 'INICIAR SESIÓN'.
      */
     @FXML
     private void onLoginAction() {
-        resultLabel.setText("Verificando credenciales...");
+        // Validación de entrada
+        String cedulaStr = cedulaField.getText();
+        String password = passwordField.getText();
+        
+        if (cedulaStr.isEmpty() || password.isEmpty()) {
+            messageLabel.setText("❌ Cédula y contraseña son requeridos.");
+            return;
+        }
 
         try {
-            // 3. Obtener Datos de la Interfaz
-            // Convertir la cédula a int
-            int cedula = Integer.parseInt(cedulaField.getText()); 
-            String contrasena = passwordField.getText();
+            int cedula = Integer.parseInt(cedulaStr);
+            
+            // Llama a la lógica de negocio (ManegerSeguridad)
+            Usuario usuarioLogeado = seguridadManager.loginUsuario(cedula, password);
 
-            // 4. Llamar a la Lógica de Negocio (ManegerSeguridad)
-            // Ya no usamos System.out.println, sino que capturamos el resultado del método
-            Usuario usuario = seguridadManager.loginUsuario(cedula, contrasena);
-
-            // 5. Mostrar el Resultado en la Interfaz
-            if (usuario != null) {
-                // Login Exitoso
-                String mensaje = "✅ ¡Bienvenido, " + usuario.getNombre() + " (" + usuario.getRol() + ")!";
-                resultLabel.setText(mensaje);
-                resultLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
-                
-                // *** Aquí debería ir la lógica para CAMBIAR de escena/vista ***
-                // switchSceneToMainApplication(usuario);
-                
+            if (usuarioLogeado != null) {
+                messageLabel.setText("✅ ¡Bienvenido, " + usuarioLogeado.getNombre() + "!");
+                // Aquí iría la lógica para cargar la vista principal del usuario/cliente
+                System.out.println("Navegando a la vista principal...");
             } else {
-                // Login Fallido
-                resultLabel.setText("❌ Error de Login: Cédula o Contraseña incorrecta.");
-                resultLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                // Intenta si es administrador
+                // Esto es una simplificación, en un app real se podría hacer una sola consulta
+                // o usar campos diferentes para Admin/Usuario
+                messageLabel.setText("❌ Credenciales incorrectas."); 
             }
             
         } catch (NumberFormatException e) {
-            // Error si la cédula no es un número válido
-            resultLabel.setText("❌ Error: La cédula debe ser un número entero.");
-            resultLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-        } catch (Exception e) {
-            // Manejo de otros errores (ej. error de conexión a DB)
-             resultLabel.setText("❌ Error en la aplicación: " + e.getMessage());
-             resultLabel.setStyle("-fx-text-fill: darkred; -fx-font-weight: bold;");
+            messageLabel.setText("❌ La cédula debe ser un número.");
+        }
+    }
+
+    /**
+     * Maneja el clic en el botón 'REGISTRARSE' para cambiar de vista.
+     */
+    @FXML
+    private void onRegisterAction() {
+        try {
+            // Llama al método setRoot modificado en MainFX (ver paso 5)
+            MainFX.setRoot("register"); // Carga el nuevo FXML: register.fxml
+        } catch (IOException e) {
+            System.err.println("❌ No se pudo cargar la vista de registro: " + e.getMessage());
         }
     }
 }
